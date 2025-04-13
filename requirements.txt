@@ -1,0 +1,17 @@
+tensorflow-probability==0.16.0
+tensorflow-hub==0.12.0          # 0.16.1 yêu cầu TF >=2.11
+tensorflow-io-gcs-filesystem==0.24.0  # 0.34 không tương thích TF 2.8
+protobuf==3.20.*
+
+# Data and ML utils
+albumentations==1.2.1
+scipy==1.8.1
+numpy>=1.21.0,<1.23.0            # TF 2.8 không tương thích numpy >=1.23
+pandas==1.4.3
+tqdm>=4.66.2,<5.0.0
+omegaconf>=2.3.0,<3.0.0
+hydra-core==1.2.0
+
+# Visualization & image I/O
+matplotlib==3.5.2
+pillow==9.2.0
