@@ -9,6 +9,7 @@ from typing import Iterable
 import tensorflow as tf
 from omegaconf import DictConfig
 
+
 def train_model(
     config: DictConfig,
     model: tf.keras.Model,
@@ -33,7 +34,9 @@ def train_model(
         )
 
         checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-            model_checkpoint_path, save_best_only=True, monitor="val_loss"
+            model_checkpoint_path,
+            save_best_only=True,
+            monitor="val_loss",
         )
 
         es_callback = tf.keras.callbacks.EarlyStopping(
@@ -42,24 +45,24 @@ def train_model(
             patience=early_stopping_patience,
             verbose=verbose,
             mode="min",
-            baseline=None,
             restore_best_weights=True,
         )
 
         train_history = model.fit(
             train_dataset,
             epochs=epochs,
-            # use_multiprocessing=True,
             callbacks=[checkpoint_callback, es_callback],
             validation_data=validation_dataset,
             verbose=verbose,
         )
 
-        if save_model_path is not None:
-            model.save(save_model_path)
+    if save_model_path is not None:
+        os.makedirs(os.path.dirname(save_model_path), exist_ok=True)
+        model.save(save_model_path)
 
     if train_history_path is not None:
+        os.makedirs(os.path.dirname(train_history_path), exist_ok=True)
         with open(train_history_path, "wb") as fp:
-            pickle.dump(train_history, fp)
+            pickle.dump(train_history.history, fp)
 
     return train_history
